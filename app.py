@@ -1,16 +1,15 @@
 import streamlit as st
 import pandas as pd
-from src.data_processing import clean_data, split_data
-from src.model_training import get_models, train_and_evaluate_models
-from src.visualisation import plot_model_comparison, plot_confusion_matrices
+from Archives.data_processing import clean_data, split_data
+from Archives.model_training import get_models, train_and_evaluate_models
+from Archives.visualisation import plot_model_comparison, plot_confusion_matrices
 
-# Page configuration
+# Page config
 st.set_page_config(page_title="Loan Risk Analyzer", layout="wide")
 
-# Theme toggle in sidebar (default to dark)
+# Theme toggle
 theme_mode = st.sidebar.radio("Select Theme", ("🌙 Dark", "🌞 Light"), index=0)
 
-# Define theme-specific colors
 if theme_mode == "🌙 Dark":
     bg_color = "#0f1117"
     text_color = "#FFFFFF"
@@ -22,7 +21,7 @@ else:
     button_color = "#333333"
     success_text_color = "#000000"
 
-# Inject custom CSS for theming
+# Custom CSS
 st.markdown(f"""
     <style>
         .stApp {{
@@ -32,36 +31,44 @@ st.markdown(f"""
         .stButton>button {{
             background-color: {button_color};
             color: white;
-            font-size: 18px;
-            padding: 0.5rem 1.5rem;
-            border-radius: 12px;
+            font-size: 16px;
+            padding: 0.5rem 1.2rem;
+            border-radius: 8px;
             border: none;
         }}
-        header, .block-container {{
-            background-color: {bg_color};
-            color: {text_color};
+        .stAlert.success {{
+            background-color: #d4edda;
+            color: {success_text_color} !important;
         }}
-        [data-testid="stAlertContentSuccess"] p {{
+        div[data-testid="stAlertContainer"] p {{
             color: {success_text_color} !important;
         }}
     </style>
 """, unsafe_allow_html=True)
 
-# Title and description
-st.title("🏦 Loan Creditworthiness Dashboard")
-st.markdown("Upload a preprocessed dataset (like `final.csv`), train five classifiers, and visualize their performance to identify high-risk applicants 💡")
+# Sidebar title
+st.sidebar.title("📁 Upload and Train")
 
-# Load default dataset
-default_path = "data/Preprocessed/final.csv"
-try:
-    df = pd.read_csv(default_path)
-    st.success("✅ Default dataset loaded successfully!")
-except Exception as e:
-    st.error(f"Failed to load default dataset: {e}")
-    df = None
+# File upload
+uploaded_file = st.sidebar.file_uploader("Upload a preprocessed dataset (CSV)", type=["csv"])
 
-# Train models and display results
-if df is not None and st.button("🚀 Train Models"):
+# Default path
+default_path = "Loan-Creaditworthiness-classification-main/data/Preprocessed/final.csv"
+
+# Load dataset
+if uploaded_file:
+    df = pd.read_csv(uploaded_file)
+    st.sidebar.success("✅ Custom dataset loaded successfully!")
+else:
+    try:
+        df = pd.read_csv(default_path)
+        st.sidebar.success("✅ Default dataset loaded successfully!")
+    except Exception as e:
+        st.sidebar.error(f"Failed to load default dataset: {e}")
+        df = None
+
+# Training and output
+if df is not None and st.sidebar.button("🚀 Train Models"):
     with st.spinner("Training in progress... Please wait ⏳"):
         df_cleaned = clean_data(df)
         X_train, X_test, y_train, y_test = split_data(df_cleaned, target_column='high_risk_applicant')
