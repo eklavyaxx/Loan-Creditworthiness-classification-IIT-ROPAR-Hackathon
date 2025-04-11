@@ -28,7 +28,7 @@ from sklearn.metrics import (
     precision_score,
     recall_score,
     f1_score,
-    roc_auc_score  # ✅ optional: better for classification
+    roc_auc_score
 )
 
 def train_and_evaluate_models(models, X_train, X_test, y_train, y_test):
@@ -51,10 +51,9 @@ def train_and_evaluate_models(models, X_train, X_test, y_train, y_test):
             'Precision': precision_score(y_test, y_pred, zero_division=0),
             'Recall': recall_score(y_test, y_pred, zero_division=0),
             'F1 Score': f1_score(y_test, y_pred, zero_division=0),
-            'ROC AUC': roc_auc  # ✅ add this instead of R2
+            'ROC AUC': roc_auc  
         }
 
         predictions[name] = (y_test, y_pred)
 
     return results, predictions
-
