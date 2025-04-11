@@ -15,15 +15,15 @@ RUN apt-get update && apt-get install -y curl build-essential && apt-get clean
 RUN curl -sSL https://install.python-poetry.org | python3 - && \
     ln -s /root/.local/bin/poetry /usr/local/bin/poetry
 
-# Copy project files
+# Copy project files including data folder
 COPY . .
 
-# Disable virtualenvs (install dependencies directly)
+# Disable virtualenvs and install dependencies
 RUN poetry config virtualenvs.create false \
  && poetry install --no-root
 
 # Expose Streamlit port
-EXPOSE 8500
+EXPOSE 8501
 
 # Run the Streamlit app
-CMD ["streamlit", "run", "app.py", "--server.port=8500", "--server.address=0.0.0.0"]
+CMD ["streamlit", "run", "app.py", "--server.port=8501", "--server.address=0.0.0.0"]
