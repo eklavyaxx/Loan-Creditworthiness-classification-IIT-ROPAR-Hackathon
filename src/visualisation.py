@@ -16,6 +16,8 @@ def plot_model_comparison(results_dict):
         ax.set_ylabel(metric)
         ax.set_xlabel("Models")
         ax.set_ylim(0, 1)
+        ax.set_xticklabels(ax.get_xticklabels(), rotation=25, ha='right')
+
         figs.append(fig)
 
     return figs
