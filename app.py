@@ -1,9 +1,9 @@
 import streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
-from Archives.data_processing import clean_data, split_data
-from Archives.model_training import get_models, train_and_evaluate_models
-from Archives.visualisation import plot_model_comparison, plot_confusion_matrices
+from src.data_processing import clean_data, split_data
+from src.model_training import get_models, train_and_evaluate_models
+from src.visualisation import plot_model_comparison, plot_confusion_matrices
 
 # Page config
 st.set_page_config(page_title="Loan Risk Analyzer", layout="wide")
@@ -57,7 +57,7 @@ st.markdown(f"""
 st.sidebar.title("📁 Upload and Train")
 
 uploaded_file = st.sidebar.file_uploader("Upload a preprocessed dataset (CSV)", type=["csv"])
-default_path = "Loan-Creaditworthiness-classification-main/data/Preprocessed/final.csv"
+default_path = "data/Preprocessed/final.csv"
 
 if uploaded_file:
     df = pd.read_csv(uploaded_file)
