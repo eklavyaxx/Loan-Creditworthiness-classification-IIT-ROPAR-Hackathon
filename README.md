@@ -55,6 +55,10 @@ Loan-Creaditworthiness-classification-main/ ├── Archives/ │ ├── da
 
 ![image](https://github.com/user-attachments/assets/d4e28b0b-613c-42ca-9c72-6f141aeacd21)
 
+** Video Demo 📼 
+
+https://youtu.be/a6mWAd7iBGE
+
 
 📌 Requirements
 
